@@ -1,47 +1,39 @@
 package autorepair;
 
-import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Created by Анатолий on 14.12.2015.
  */
 public class Parking {
 
-    private static Stack<Car> parking;
-    private int sizeOfParking;
-    private int curSize;
+    private static BlockingQueue<Car> parking;
 
-    public Parking(){
-        parking = new Stack<Car>();
-        sizeOfParking = 10;
-        curSize = 0;
+
+    public Parking(int N){
+        parking = new ArrayBlockingQueue<Car>(N);
     }
 
     public Car getCar(){
-        if(!parking.empty()) {
-            curSize--;
-            return parking.pop();
+
+        if (!parking.isEmpty()) {
+            try {
+                return parking.take();
+            } catch (InterruptedException e) {
+                return null;
+            }
         }
-        else
-            return null;
+        return null;
+
     }
 
     public boolean setCar(Car car){
-        if (curSize >= sizeOfParking)
-            return false;
-        else{
-            curSize++;
-            parking.push(car);
-            return true;
-        }
-    }
 
-    public boolean isFul(){
-        //System.out.println(curSize +" "+ sizeOfParking);
-        return curSize >= sizeOfParking;
-    }
+        return parking.offer(car);
 
+    }
     public boolean isEmty(){
-        return parking.empty();
+        return parking.isEmpty();
     }
 }
