@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<car>
+  <id>0</id>
+  <name>RENAULT</name>
+  <owner>DENIS</owner>
+  <handling_time>1</handling_time>
+  <type>XML</type>
+</car>
+
